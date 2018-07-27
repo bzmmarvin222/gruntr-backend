@@ -21,7 +21,7 @@ public class GruntrUserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userEntity.getPassword();
+        return userEntity.getPasswordHash();
     }
 
     @Override

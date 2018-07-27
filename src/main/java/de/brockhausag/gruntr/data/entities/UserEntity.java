@@ -1,5 +1,7 @@
 package de.brockhausag.gruntr.data.entities;
 
+import de.brockhausag.gruntr.auth.UserRole;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +15,8 @@ public class UserEntity {
     private Long id;
 
     private String userName;
-    private String password;
+    private String passwordHash;
+    private UserRole role;
 
     //<editor-fold desc="getters and setters">
     public Long getId() {
@@ -32,12 +35,20 @@ public class UserEntity {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
     //</editor-fold>
 }

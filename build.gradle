@@ -31,6 +31,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-jersey')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.data:spring-data-rest-hal-browser')
-    runtime('com.h2database:h2')
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+
+    // Start: Database Just to satisfy deps of LocalH2Sercer
+    compile group: 'com.h2database', name: 'h2', version: '1.4.196'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
