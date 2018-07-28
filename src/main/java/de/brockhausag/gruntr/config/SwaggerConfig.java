@@ -39,7 +39,7 @@ public class SwaggerConfig {
                 "None",
                 new Contact("Marvin Fittinghoff", "www.brockhaus-ag.de","mfittinghoff@brockhaus-ag.de"),
                 "MIT",
-                "no licensing url yet",
+                "https://github.com/bzmmarvin222/gruntr-backend/blob/master/LICENSE",
                 Collections.emptyList());
     }
 }
