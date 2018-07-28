@@ -27,11 +27,11 @@ public class GruntrUserDetailsService implements UserDetailsService {
         }
     }
 
-    public UserEntity create(CreateUserDto userDto) {
+    public UserEntity create(CreateUserDto userDto, UserRole role) {
         UserEntity entity = new UserEntity();
         entity.setUserName(userDto.getUserName());
         entity.setPasswordHash(new BCryptPasswordEncoder().encode(userDto.getPassword()));
-        entity.setRole(UserRole.DEFAULT_USER);
+        entity.setRole(role);
         return userRepository.save(entity);
     }
 }

@@ -26,7 +26,7 @@ public class GruntrUserDetailsServiceTest {
 
     private static final String USER_NAME = "TestUser";
     private static final String USER_PASSWORD = "Password";
-    private static final UserRole DEFAULT_USER_ROLE = UserRole.DEFAULT_USER;
+    private static final UserRole DEFAULT_USER_ROLE = UserRole.ROLE_USER;
 
     private Map<String, UserEntity> mockUserDb = new HashMap<>();
     @MockBean
@@ -64,7 +64,7 @@ public class GruntrUserDetailsServiceTest {
     public void loadUserByUsernameSuccess() {
         CreateUserDto dto = getCreateUserDto();
 
-        userDetailsService.create(dto);
+        userDetailsService.create(dto, DEFAULT_USER_ROLE);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(USER_NAME);
         Assert.assertNotNull(userDetails);
@@ -81,7 +81,7 @@ public class GruntrUserDetailsServiceTest {
     public void create() {
         CreateUserDto dto = getCreateUserDto();
 
-        userDetailsService.create(dto);
+        userDetailsService.create(dto, DEFAULT_USER_ROLE);
 
         UserEntity entity = userRepository.findByUserName(USER_NAME);
         Assert.assertNotNull(entity);
@@ -92,7 +92,7 @@ public class GruntrUserDetailsServiceTest {
     public void createHashesPassword() {
         CreateUserDto dto = getCreateUserDto();
 
-        userDetailsService.create(dto);
+        userDetailsService.create(dto, DEFAULT_USER_ROLE);
 
         UserEntity entity = userRepository.findByUserName(USER_NAME);
         Assert.assertNotEquals(USER_PASSWORD, entity.getPasswordHash());
@@ -102,9 +102,19 @@ public class GruntrUserDetailsServiceTest {
     public void createSetsDefaultUserRole() {
         CreateUserDto dto = getCreateUserDto();
 
-        userDetailsService.create(dto);
+        userDetailsService.create(dto, DEFAULT_USER_ROLE);
 
         UserEntity entity = userRepository.findByUserName(USER_NAME);
         Assert.assertEquals(DEFAULT_USER_ROLE, entity.getRole());
+    }
+
+    @Test
+    public void createSetsAdminRole() {
+        CreateUserDto dto = getCreateUserDto();
+
+        userDetailsService.create(dto, UserRole.ROLE_ADMIN);
+
+        UserEntity entity = userRepository.findByUserName(USER_NAME);
+        Assert.assertEquals(UserRole.ROLE_ADMIN, entity.getRole());
     }
 }

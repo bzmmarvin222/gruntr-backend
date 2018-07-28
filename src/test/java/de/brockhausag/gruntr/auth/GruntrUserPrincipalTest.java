@@ -11,7 +11,7 @@ public class GruntrUserPrincipalTest {
 
     private static final String USER_PASSWORD_HASH = "Passwort";
     private static final String USER_NAME = "KlausMcTesterson";
-    private static final UserRole USER_ROLE = UserRole.DEFAULT_USER;
+    private static final UserRole USER_ROLE = UserRole.ROLE_USER;
     private static final long USER_ID = 1337;
 
     private GruntrUserPrincipal principal;
@@ -30,7 +30,7 @@ public class GruntrUserPrincipalTest {
     public void getAuthorities() {
         Assert.assertEquals(1, principal.getAuthorities().size());
         GrantedAuthority authority = Iterables.get(principal.getAuthorities(), 0);
-        Assert.assertEquals(UserRole.DEFAULT_USER.toString(), authority.getAuthority());
+        Assert.assertEquals(UserRole.ROLE_USER.toString(), authority.getAuthority());
     }
 
     @Test

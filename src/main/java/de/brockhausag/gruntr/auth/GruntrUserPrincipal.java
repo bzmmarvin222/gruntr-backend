@@ -1,5 +1,6 @@
 package de.brockhausag.gruntr.auth;
 
+import de.brockhausag.gruntr.data.dto.UserDto;
 import de.brockhausag.gruntr.data.entities.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +15,14 @@ public class GruntrUserPrincipal implements UserDetails {
 
     public GruntrUserPrincipal(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    public UserDto getUserDto() {
+        UserDto userDto = new UserDto();
+        userDto.setRole(userEntity.getRole());
+        userDto.setUserName(userEntity.getUserName());
+        userDto.setUserId(userEntity.getId());
+        return userDto;
     }
 
     @Override
