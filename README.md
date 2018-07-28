@@ -27,4 +27,4 @@ The credentials are:
 
 ### Swagger UI
 To see which Controllers are available and to test them, visit Swagger UI.
-Just go to [localhost:8080/swagger-ui.hmtl](http://localhost:8080/swagger-ui.html)
+Just go to [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
