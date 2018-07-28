@@ -37,4 +37,5 @@ dependencies {
     // Start: Database Just to satisfy deps of LocalH2Sercer
     compile group: 'com.h2database', name: 'h2', version: '1.4.196'
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile 'org.mockito:mockito-core:2.20.1'
 }

@@ -18,7 +18,7 @@ public class GruntrUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity =userRepository.findByUserName(username);
+        UserEntity userEntity = userRepository.findByUserName(username);
 
         if (userEntity == null) {
             throw  new UsernameNotFoundException(username);
