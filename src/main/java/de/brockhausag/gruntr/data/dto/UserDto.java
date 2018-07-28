@@ -2,19 +2,20 @@ package de.brockhausag.gruntr.data.dto;
 
 import de.brockhausag.gruntr.auth.UserRole;
 import de.brockhausag.gruntr.data.entities.UserEntity;
+import org.springframework.hateoas.ResourceSupport;
 
-public class UserDto {
-    private long id;
+public class UserDto extends ResourceSupport {
+    private long userId;
     private String userName;
     private UserRole role;
 
     //<editor-fold desc="getters and setters">
-    public long getId() {
-        return id;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -36,7 +37,7 @@ public class UserDto {
 
     public static UserDto FromEntity(UserEntity entity) {
         UserDto result = new UserDto();
-        result.setId(entity.getId());
+        result.setUserId(entity.getId());
         result.setUserName(entity.getUserName());
         result.setRole(entity.getRole());
         return result;
