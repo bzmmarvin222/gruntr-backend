@@ -28,9 +28,31 @@ public class GruntrUserPrincipalTest {
 
     @Test
     public void getAuthorities() {
+        //has only 1 role, default user
         Assert.assertEquals(1, principal.getAuthorities().size());
         GrantedAuthority authority = Iterables.get(principal.getAuthorities(), 0);
         Assert.assertEquals(UserRole.ROLE_USER.toString(), authority.getAuthority());
+    }
+
+    @Test
+    public void getAuthoritiesAdmin() {
+        UserEntity entity = new UserEntity();
+        entity.setPasswordHash(USER_PASSWORD_HASH);
+        entity.setRole(UserRole.ROLE_ADMIN);
+        entity.setUserName(USER_NAME);
+        entity.setId(USER_ID);
+        GruntrUserPrincipal adminPrincipal = new GruntrUserPrincipal(entity);
+
+        //has 2 roles, default user and admin
+        Assert.assertEquals(2, adminPrincipal.getAuthorities().size());
+
+        boolean hasRoleUser = adminPrincipal.getAuthorities().stream()
+                .anyMatch(o -> USER_ROLE.toString().equals(o.getAuthority()));
+        Assert.assertTrue(hasRoleUser);
+
+        boolean hasRoleAdmin = adminPrincipal.getAuthorities().stream()
+                .anyMatch(o -> UserRole.ROLE_ADMIN.toString().equals(o.getAuthority()));
+        Assert.assertTrue(hasRoleAdmin);
     }
 
     @Test

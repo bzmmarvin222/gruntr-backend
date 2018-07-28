@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
+
 @Service
 public class GruntrUserDetailsService implements UserDetailsService {
 
@@ -24,6 +27,15 @@ public class GruntrUserDetailsService implements UserDetailsService {
             throw  new UsernameNotFoundException(username);
         } else {
             return new GruntrUserPrincipal(userEntity);
+        }
+    }
+
+    public GruntrUserPrincipal loadById(Long id) throws EntityNotFoundException {
+        Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
+        if (!optionalUserEntity.isPresent()) {
+            throw new EntityNotFoundException(String.format("User with id %d does not exist.", id));
+        } else {
+            return new GruntrUserPrincipal(optionalUserEntity.get());
         }
     }
 

@@ -1,9 +1,15 @@
 package de.brockhausag.gruntr.data.dto;
 
 import de.brockhausag.gruntr.auth.UserRole;
+import de.brockhausag.gruntr.controllers.UserController;
 import de.brockhausag.gruntr.data.entities.UserEntity;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+@Relation(value = "user", collectionRelation = "users")
 public class UserDto extends ResourceSupport {
     private long userId;
     private String userName;
@@ -40,6 +46,7 @@ public class UserDto extends ResourceSupport {
         result.setUserId(entity.getId());
         result.setUserName(entity.getUserName());
         result.setRole(entity.getRole());
+        result.add(linkTo(methodOn(UserController.class).getUser(entity.getId())).withSelfRel());
         return result;
     }
 }

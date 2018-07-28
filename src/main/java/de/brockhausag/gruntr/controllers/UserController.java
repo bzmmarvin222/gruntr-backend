@@ -11,34 +11,40 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
+
 @RestController
-@RequestMapping(value = "/api", produces = {MediaTypes.HAL_JSON_VALUE})
+@RequestMapping(value = "/api/user", produces = {MediaTypes.HAL_JSON_VALUE})
 public class UserController {
+    public static final String USER_ID = "userId";
+
     @Autowired
     GruntrUserDetailsService userDetailsService;
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<UserDto> user() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        GruntrUserPrincipal userDetails = (GruntrUserPrincipal) userDetailsService.loadUserByUsername(userName);
-        UserDto result  = userDetails.getUserDto();
+        GruntrUserPrincipal principal = (GruntrUserPrincipal) userDetailsService.loadUserByUsername(userName);
+        UserDto result  = principal.getUserDto();
         return ResponseEntity.ok(result);
     }
 
-    @Secured("ROLE_USER")
-    @RequestMapping(value = "/noadmin", method = RequestMethod.GET)
-    public HttpEntity<UserEntity> noAdminTestMethod() {
-        return ResponseEntity.ok(new UserEntity());
-    }
-
-    @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public HttpEntity<UserEntity> onlyAdminTestMethod() {
-        return ResponseEntity.ok(new UserEntity());
+    @RequestMapping(value = "/{" + USER_ID + "}", method = RequestMethod.GET)
+    @Secured({"ROLE_USER"})
+    public HttpEntity<UserDto> getUser(@PathVariable(USER_ID) Long id) {
+        GruntrUserPrincipal principal;
+        try {
+             principal = userDetailsService.loadById(id);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        UserDto result  = principal.getUserDto();
+        return ResponseEntity.ok(result);
     }
 }

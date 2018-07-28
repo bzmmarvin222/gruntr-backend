@@ -6,8 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GruntrUserPrincipal implements UserDetails {
 
@@ -18,17 +20,21 @@ public class GruntrUserPrincipal implements UserDetails {
     }
 
     public UserDto getUserDto() {
-        UserDto userDto = new UserDto();
-        userDto.setRole(userEntity.getRole());
-        userDto.setUserName(userEntity.getUserName());
-        userDto.setUserId(userEntity.getId());
-        return userDto;
+        return UserDto.FromEntity(userEntity);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority authority = new SimpleGrantedAuthority(userEntity.getRole().toString());
-        return Collections.singletonList(authority);
+        List<UserRole> roles = new ArrayList<>();
+        roles.add(UserRole.ROLE_USER);
+
+        if (userEntity.getRole() == UserRole.ROLE_ADMIN) {
+            roles.add(UserRole.ROLE_ADMIN);
+        }
+
+        return roles.stream()
+                .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
+                .collect(Collectors.toList());
     }
 
     @Override
