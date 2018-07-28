@@ -37,7 +37,7 @@ public class SwaggerConfig {
                 "Documentation of basic REST features of Gruntr",
                 "v.0.0.1",
                 "None",
-                new Contact("Marvin Fittinghoff", "www.brockhaus-ag.de","mfittinghoff@brockhaus-ag.de"),
+                new Contact("Marvin Fittinghoff", "https://www.brockhaus-ag.de","mfittinghoff@brockhaus-ag.de"),
                 "MIT",
                 "https://github.com/bzmmarvin222/gruntr-backend/blob/master/LICENSE",
                 Collections.emptyList());
