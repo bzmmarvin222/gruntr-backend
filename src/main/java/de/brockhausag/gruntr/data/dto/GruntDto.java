@@ -12,6 +12,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class GruntDto extends ResourceSupport {
     public static final String AUTHOR_REL = "author";
+    public static final String REPLIES_REL = "replies";
 
     private Instant postedOn;
     private String content;
@@ -40,6 +41,7 @@ public class GruntDto extends ResourceSupport {
         result.setPostedOn(entity.getPostedOn());
         result.add(linkTo(methodOn(UserController.class).getUser(entity.getAuthor().getId())).withRel(AUTHOR_REL));
         result.add(linkTo(methodOn(GruntController.class).grunt(entity.getId())).withSelfRel());
+        result.add(linkTo(methodOn(GruntController.class).replies(entity.getId())).withRel(REPLIES_REL));
         return result;
     }
 }
