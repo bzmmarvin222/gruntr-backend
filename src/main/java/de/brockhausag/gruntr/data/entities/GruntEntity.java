@@ -1,10 +1,9 @@
 package de.brockhausag.gruntr.data.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class GruntEntity {
@@ -12,10 +11,13 @@ public class GruntEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDate postedOn;
+    private Instant postedOn;
+    @JoinColumn(name = "authorid")
+    @ManyToOne()
     private UserEntity author;
     private String content;
-    private GruntEntity replyTo;
+    @OneToMany(targetEntity = GruntEntity.class)
+    private List<GruntEntity> replies = new ArrayList<>();
 
     //<editor-fold desc="getters and setters">
     public Long getId() {
@@ -26,11 +28,11 @@ public class GruntEntity {
         this.id = id;
     }
 
-    public LocalDate getPostedOn() {
+    public Instant getPostedOn() {
         return postedOn;
     }
 
-    public void setPostedOn(LocalDate postedOn) {
+    public void setPostedOn(Instant postedOn) {
         this.postedOn = postedOn;
     }
 
@@ -50,12 +52,12 @@ public class GruntEntity {
         this.content = content;
     }
 
-    public GruntEntity getReplyTo() {
-        return replyTo;
+    public List<GruntEntity> getReplies() {
+        return replies;
     }
 
-    public void setReplyTo(GruntEntity replyTo) {
-        this.replyTo = replyTo;
+    public void setReplies(List<GruntEntity> replies) {
+        this.replies = replies;
     }
     //</editor-fold>
 }

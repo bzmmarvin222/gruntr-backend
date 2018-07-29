@@ -2,10 +2,9 @@ package de.brockhausag.gruntr.data.entities;
 
 import de.brockhausag.gruntr.auth.UserRole;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class UserEntity {
@@ -17,6 +16,8 @@ public class UserEntity {
     private String userName;
     private String passwordHash;
     private UserRole role;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = GruntEntity.class)
+    private List<GruntEntity> posts = new ArrayList<>();
 
     //<editor-fold desc="getters and setters">
     public Long getId() {
@@ -49,6 +50,14 @@ public class UserEntity {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public List<GruntEntity> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<GruntEntity> posts) {
+        this.posts = posts;
     }
     //</editor-fold>
 }
