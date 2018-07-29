@@ -4,12 +4,10 @@ import de.brockhausag.gruntr.auth.UserRole;
 import de.brockhausag.gruntr.controllers.UserController;
 import de.brockhausag.gruntr.data.entities.UserEntity;
 import org.springframework.hateoas.ResourceSupport;
-import org.springframework.hateoas.core.Relation;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-@Relation(value = "user", collectionRelation = "users")
 public class UserDto extends ResourceSupport {
     private long userId;
     private String userName;
