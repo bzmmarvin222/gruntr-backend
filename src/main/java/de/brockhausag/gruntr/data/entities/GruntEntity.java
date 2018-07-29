@@ -16,6 +16,7 @@ public class GruntEntity {
     @ManyToOne()
     private UserEntity author;
     private String content;
+    //TODO: this way replies get listed as main grunts, too. add reply entity instead
     @OneToMany(targetEntity = GruntEntity.class)
     private List<GruntEntity> replies = new ArrayList<>();
 

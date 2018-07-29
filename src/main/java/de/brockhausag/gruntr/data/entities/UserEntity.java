@@ -16,8 +16,6 @@ public class UserEntity {
     private String userName;
     private String passwordHash;
     private UserRole role;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = GruntEntity.class)
-    private List<GruntEntity> posts = new ArrayList<>();
 
     //<editor-fold desc="getters and setters">
     public Long getId() {
@@ -50,14 +48,6 @@ public class UserEntity {
 
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    public List<GruntEntity> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<GruntEntity> posts) {
-        this.posts = posts;
     }
     //</editor-fold>
 }

@@ -1,5 +1,6 @@
 package de.brockhausag.gruntr.data.dto;
 
+import de.brockhausag.gruntr.controllers.GruntController;
 import de.brockhausag.gruntr.controllers.UserController;
 import de.brockhausag.gruntr.data.entities.GruntEntity;
 import org.springframework.hateoas.ResourceSupport;
@@ -38,6 +39,7 @@ public class GruntDto extends ResourceSupport {
         result.setContent(entity.getContent());
         result.setPostedOn(entity.getPostedOn());
         result.add(linkTo(methodOn(UserController.class).getUser(entity.getAuthor().getId())).withRel(AUTHOR_REL));
+        result.add(linkTo(methodOn(GruntController.class).grunt(entity.getId())).withSelfRel());
         return result;
     }
 }

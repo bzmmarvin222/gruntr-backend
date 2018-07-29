@@ -36,7 +36,6 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{" + USER_ID + "}", method = RequestMethod.GET)
-    @Secured({"ROLE_USER"})
     public HttpEntity<UserDto> getUser(@PathVariable(USER_ID) Long id) {
         GruntrUserPrincipal principal;
         try {
