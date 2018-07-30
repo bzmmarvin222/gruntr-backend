@@ -2,8 +2,6 @@ package de.brockhausag.gruntr.data.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class GruntEntity {
@@ -16,9 +14,8 @@ public class GruntEntity {
     @ManyToOne()
     private UserEntity author;
     private String content;
-    //TODO: this way replies get listed as main grunts, too. add reply entity instead
-    @OneToMany(targetEntity = GruntEntity.class)
-    private List<GruntEntity> replies = new ArrayList<>();
+    @ManyToOne(targetEntity = GruntEntity.class)
+    private GruntEntity replyTo;
 
     //<editor-fold desc="getters and setters">
     public Long getId() {
@@ -53,12 +50,12 @@ public class GruntEntity {
         this.content = content;
     }
 
-    public List<GruntEntity> getReplies() {
-        return replies;
+    public GruntEntity getReplyTo() {
+        return replyTo;
     }
 
-    public void setReplies(List<GruntEntity> replies) {
-        this.replies = replies;
+    public void setReplyTo(GruntEntity replyTo) {
+        this.replyTo = replyTo;
     }
     //</editor-fold>
 }

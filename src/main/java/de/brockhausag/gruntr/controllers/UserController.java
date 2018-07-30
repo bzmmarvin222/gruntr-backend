@@ -26,6 +26,7 @@ public class UserController {
     @Autowired
     GruntrUserDetailsService userDetailsService;
 
+    //TODO: method argument provider or resolver?, passes user to method
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<UserDto> user() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -66,10 +66,10 @@ public class DatabaseInititializer implements ApplicationListener<ContextRefresh
             gruntEntity.setContent(TEST_GRUNT_CONTENT + (i + 1));
             gruntEntity.setPostedOn(Instant.now());
             if (i >= 80) {
-                GruntEntity replied = entities[i - 70];
-                replied.getReplies().add(gruntEntity);
+                GruntEntity toReply = entities[i - 70];
+                gruntEntity.setReplyTo(toReply);
                 gruntRepository.save(gruntEntity);
-                gruntRepository.save(replied);
+                gruntRepository.save(toReply);
             } else {
                 gruntRepository.save(gruntEntity);
             }

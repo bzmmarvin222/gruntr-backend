@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.Collection;
 
 public interface GruntRepository extends CrudRepository<GruntEntity, Long> {
-    Collection<GruntEntity> findFirst10ByIdBeforeOrderByIdDesc(Long id);
-    Collection<GruntEntity> findFirst10ByOrderByIdDesc();
+    Collection<GruntEntity> findFirst10ByReplyToIsNullAndPostedOnBeforeOrderByPostedOnDesc(Instant postedOnLimit);
+    Collection<GruntEntity> findFirst10ByReplyToIsNullOrderByPostedOnDesc();
+    Collection<GruntEntity> findByReplyToId(Long gruntId);
 }

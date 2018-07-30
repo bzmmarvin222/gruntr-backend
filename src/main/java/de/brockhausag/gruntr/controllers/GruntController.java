@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,17 +21,17 @@ public class GruntController {
 
     public static final String GRUNT_ID = "gruntId";
 
-    //TODO: service, too much logik in controller methods
+    //TODO: service, too much logic in controller methods
     @Autowired
     GruntRepository gruntRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<GruntDto>> grunts(@RequestParam(value = "before", required = false) Long beforeId) {
+    public HttpEntity<Resources<GruntDto>> grunts(@RequestParam(value = "before", required = false) Instant before) {
         Collection<GruntEntity> grunts;
-        if (beforeId == null) {
-            grunts = gruntRepository.findFirst10ByOrderByIdDesc();
+        if (before == null) {
+            grunts = gruntRepository.findFirst10ByReplyToIsNullOrderByPostedOnDesc();
         } else {
-            grunts = gruntRepository.findFirst10ByIdBeforeOrderByIdDesc(beforeId);
+            grunts = gruntRepository.findFirst10ByReplyToIsNullAndPostedOnBeforeOrderByPostedOnDesc(before);
         }
 
         Collection<GruntDto> gruntDtos = grunts.stream()
@@ -54,15 +52,14 @@ public class GruntController {
 
     @RequestMapping(path = "/{" + GRUNT_ID + "}/replies" ,method = RequestMethod.GET)
     public HttpEntity<Resources<GruntDto>> replies(@PathVariable(GRUNT_ID) Long gruntId) {
-        Optional<GruntEntity> optionalEntity = gruntRepository.findById(gruntId);
-        if (optionalEntity.isPresent()) {
-            Collection<GruntDto> replies = optionalEntity.get().getReplies().stream()
-                    .map(GruntDto::FromEntity)
-                    .collect(Collectors.toList());
-            Resources resources = Resources.wrap(replies);
-            return ResponseEntity.ok(resources);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Collection<GruntEntity> grunts;
+        grunts = gruntRepository.findByReplyToId(gruntId);
+
+        Collection<GruntDto> gruntDtos = grunts.stream()
+                .map(GruntDto::FromEntity)
+                .collect(Collectors.toList());
+
+        Resources resources = Resources.wrap(gruntDtos);
+        return ResponseEntity.ok(resources);
     }
 }
