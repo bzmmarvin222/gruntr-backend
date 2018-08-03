@@ -1,9 +1,12 @@
 package de.brockhausag.gruntr.auth;
 
 import de.brockhausag.gruntr.data.dto.CreateUserDto;
+import de.brockhausag.gruntr.data.dto.UserDto;
 import de.brockhausag.gruntr.data.entities.UserEntity;
 import de.brockhausag.gruntr.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,5 +48,12 @@ public class GruntrUserDetailsService implements UserDetailsService {
         entity.setPasswordHash(new BCryptPasswordEncoder().encode(userDto.getPassword()));
         entity.setRole(role);
         return userRepository.save(entity);
+    }
+
+    public UserDto getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        GruntrUserPrincipal principal = (GruntrUserPrincipal) loadUserByUsername(userName);
+        return principal.getUserDto();
     }
 }
