@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/bzmmarvin222/gruntr-backend.svg?branch=master)](https://travis-ci.org/bzmmarvin222/gruntr-backend)
 
 # Gruntr Backend
-This is an example Spring Boot Backend. Gruntr is a short message Webapp in which users can post simple messages, called "grunts". In the future, there will also be the Gruntr-UI project.
+This is an example Spring Boot Backend. See [Gruntr](https://github.com/bzmmarvin222/gruntr) to learn more about Gruntr in general.
 
 ### Documentation/ Introduction into used Frameworks
 - [Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
