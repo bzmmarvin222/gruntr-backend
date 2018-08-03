@@ -15,6 +15,10 @@ public class GruntrUserPrincipal implements UserDetails {
 
     private UserEntity userEntity;
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
     public GruntrUserPrincipal(UserEntity userEntity) {
         this.userEntity = userEntity;
     }

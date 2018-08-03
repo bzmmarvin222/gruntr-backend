@@ -51,9 +51,16 @@ public class GruntrUserDetailsService implements UserDetailsService {
     }
 
     public UserDto getCurrentUser() {
+        return getPrincipal().getUserDto();
+    }
+
+    public UserEntity getCurrentUserEntity() {
+        return getPrincipal().getUserEntity();
+    }
+
+    private GruntrUserPrincipal getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        GruntrUserPrincipal principal = (GruntrUserPrincipal) loadUserByUsername(userName);
-        return principal.getUserDto();
+        return (GruntrUserPrincipal) loadUserByUsername(userName);
     }
 }
