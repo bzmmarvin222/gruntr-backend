@@ -55,4 +55,16 @@ public class GruntController {
         URI rel = posted.getId().getTemplate().expand();
         return ResponseEntity.created(rel).body(posted);
     }
+
+    @RequestMapping(path = "/{" + GRUNT_ID + "}/reply", method = RequestMethod.PUT)
+    public HttpEntity<GruntDto> reply(@PathVariable(GRUNT_ID) Long repliedId, @RequestBody GruntDto gruntDto) {
+        GruntDto posted = null;
+        try {
+            gruntService.reply(repliedId, gruntDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        URI rel = posted.getId().getTemplate().expand();
+        return ResponseEntity.created(rel).body(posted);
+    }
 }

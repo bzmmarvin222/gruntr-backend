@@ -46,11 +46,27 @@ public class GruntService {
     }
 
     public GruntDto post(GruntDto gruntToPost) {
+        GruntEntity postEntity = createFromDto(gruntToPost);
+        GruntEntity savedEntity = gruntRepository.save(postEntity);
+        return GruntDto.FromEntity(savedEntity);
+    }
+
+    public GruntDto reply(Long repliedId, GruntDto reply) throws IllegalArgumentException {
+        GruntEntity replyEntity = createFromDto(reply);
+        Optional<GruntEntity> replied = gruntRepository.findById(repliedId);
+        if (!replied.isPresent()) {
+            throw new IllegalArgumentException("Der Wettbewerb exisitiert nicht.");
+        }
+        replyEntity.setReplyTo(replied.get());
+        GruntEntity savedEntity = gruntRepository.save(replyEntity);
+        return GruntDto.FromEntity(savedEntity);
+    }
+
+    private GruntEntity createFromDto(GruntDto gruntDto) {
         GruntEntity entity = new GruntEntity();
-        entity.setContent(gruntToPost.getContent());
+        entity.setContent(gruntDto.getContent());
         entity.setPostedOn(Instant.now());
         entity.setAuthor(userDetailsService.getCurrentUserEntity());
-        GruntEntity savedEntity = gruntRepository.save(entity);
-        return GruntDto.FromEntity(savedEntity);
+        return entity;
     }
 }
