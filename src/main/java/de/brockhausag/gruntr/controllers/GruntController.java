@@ -22,9 +22,6 @@ public class GruntController {
     public static final String GRUNT_ID = "gruntId";
 
     @Autowired
-    GruntRepository gruntRepository;
-
-    @Autowired
     GruntService gruntService;
 
     @RequestMapping(method = RequestMethod.GET)
